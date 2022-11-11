@@ -8,6 +8,9 @@ ARG BASE_YUM_REPO=testing
 
 LABEL maintainer OSG Software <help@opensciencegrid.org>
 
+ENV SQUID_CACHE_DIR=/var/spool/squid
+ENV SQUID_LOG_DIR=/var/log/squid
+
 # Create the squid user with a fixed GID/UID; do this first, so that the Squid
 # install does not do it.  Then do the installs.  All one instruction to reduce
 # image size, etc.
@@ -42,10 +45,32 @@ RUN rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch && \
                 filebeat && \
     rm -rf /var/cache/yum/*
 
+RUN mkdir -p /var/spool/squid \
+ && mkdir -p /var/log/squid \
+ && mkdir -p /var/run/squid \
+ && mkdir -p /var/cache/squid
+
+RUN chgrp -R 0 /etc/squid \
+ && chgrp -R 0 /etc/supervisord.d \
+ && chgrp -R 0 /usr/sbin/ \
+ && chmod -R g+rwX /etc/squid \
+ && chmod -R g+rwX /etc/supervisord.d \
+ && chmod -R g+rwX /usr/sbin/ \
+ && chgrp -R 0 /var/spool/squid \
+ && chmod -R g+rwX /var/spool/squid \
+ && chgrp -R 0 /var/log/squid \
+ && chmod -R g+rwX /var/log/squid \
+ && chgrp -R 0 /var/run/squid \
+ && chmod -R g+rwX /var/run/squid \
+ && chgrp -R 0 /var/cache/squid \
+ && chmod -R g+rwX /var/cache/squid
+
 COPY start-frontier-squid.sh /usr/sbin/
 COPY squid-customize.sh /etc/squid/customize.sh
 COPY customize.d/* /etc/squid/customize.d/
 COPY supervisor-frontier-squid.conf /etc/supervisord.d/40-frontier-squid.conf
+
+USER 10941
 
 EXPOSE 3128
 
