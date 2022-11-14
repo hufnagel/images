@@ -51,11 +51,7 @@ RUN mkdir -p /var/spool/squid \
  && mkdir -p /var/cache/squid
 
 RUN chgrp -R 0 /etc/squid \
- && chgrp -R 0 /etc/supervisord.d \
- && chgrp -R 0 /usr/sbin/ \
  && chmod -R g+rwX /etc/squid \
- && chmod -R g+rwX /etc/supervisord.d \
- && chmod -R g+rwX /usr/sbin/ \
  && chgrp -R 0 /var/spool/squid \
  && chmod -R g+rwX /var/spool/squid \
  && chgrp -R 0 /var/log/squid \
@@ -65,10 +61,9 @@ RUN chgrp -R 0 /etc/squid \
  && chgrp -R 0 /var/cache/squid \
  && chmod -R g+rwX /var/cache/squid
 
-COPY start-frontier-squid.sh /usr/sbin/
 COPY squid-customize.sh /etc/squid/customize.sh
 COPY customize.d/* /etc/squid/customize.d/
-COPY supervisor-frontier-squid.conf /etc/supervisord.d/40-frontier-squid.conf
+# COPY supervisor-frontier-squid.conf /etc/supervisord.d/40-frontier-squid.conf
 
 USER 10941
 
@@ -81,4 +76,4 @@ ENV SQUID_CACHE_MEM="128 MB"
 ENV SQUID_CACHE_DISK="10000"
 ENV SQUID_CACHE_DISK_LOCATION="/var/cache/squid"
 
-CMD ["/usr/sbin/start-frontier-squid.sh"]
+CMD ["/usr/sbin/fn-local-squid.sh"]
