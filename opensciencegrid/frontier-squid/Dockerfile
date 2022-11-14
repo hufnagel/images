@@ -76,4 +76,4 @@ ENV SQUID_CACHE_MEM="128 MB"
 ENV SQUID_CACHE_DISK="10000"
 ENV SQUID_CACHE_DISK_LOCATION="/var/cache/squid"
 
-CMD ["/usr/sbin/fn-local-squid.sh"]
+CMD ["/usr/sbin/fn-local-squid.sh start"]
