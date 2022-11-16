@@ -71,7 +71,7 @@ EXPOSE 3128
 
 # These env variables can be changed in the container instance
 # Set default values which should reflect what is in the RPM
-ENV SQUID_IPRANGE="10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 fc00::/7 fe80::/10"
+ENV SQUID_IPRANGE="0.0.0.0/0 ::/0"
 ENV SQUID_CACHE_MEM="128 MB"
 ENV SQUID_CACHE_DISK="10000"
 ENV SQUID_CACHE_DISK_LOCATION="/var/cache/squid"
