@@ -73,7 +73,7 @@ EXPOSE 3128
 # Set default values which should reflect what is in the RPM
 ENV SQUID_IPRANGE="all"
 ENV SQUID_CACHE_MEM="128 MB"
-ENV SQUID_CACHE_DISK="10000"
+ENV SQUID_CACHE_DISK="100000"
 ENV SQUID_CACHE_DISK_LOCATION="/var/cache/squid"
 ENV SQUID_START_ARGS="--foreground" 
 
